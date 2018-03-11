@@ -30,3 +30,13 @@
 *.exe
 *.out
 *.app
+/.vs
+/NaiveBayes/.vs/NaiveBayes/v15
+/NaiveBayes/NaiveBayes/bin
+/NaiveBayes/NaiveBayes/data
+/NaiveBayes/NaiveBayes/obj/x64/Debug
+/NaiveBayes/NaiveBayes/readme
+/NaiveBayes/NaiveBayes/NaiveBayes.vcxproj
+/NaiveBayes/NaiveBayes/NaiveBayes.vcxproj.user
+/NaiveBayes/NaiveBayes.sln
+/.gitattributes
