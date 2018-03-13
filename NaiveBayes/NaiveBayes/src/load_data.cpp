@@ -30,28 +30,28 @@ int GetTypeOfChar(char character)
 {
 	switch (character)
 	{
-	case ' ':
-		return 0;
-	case '+':
-		return 1;
-	case '#':
-		return 2;
+		case ' ':
+			return 0;
+		case '+':
+			return 1;
+		case '#':
+			return 2;
 
 	}
 }
 
-vector<int> LoadSolutionsVector(string file_name)
+vector<int> LoadLabelsVector(string file_name)
 {
-	vector<int> solutions;
+	vector<int> labels;
 	std::ifstream file(file_name);
 	char current_character;
 	while (file.get(current_character))
 	{
 		int character_converted_to_int = current_character - '0';
-		solutions.push_back(character_converted_to_int);
+		labels.push_back(character_converted_to_int);
 	}
 
-	return solutions;
+	return labels;
 
 }
 
