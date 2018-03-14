@@ -2,20 +2,15 @@
 
 int ClassifyData::ClassOfImage(vector<int> image)
 {
-	map<int, double> posterior_per_class;
-	double k_constant = 0.1;
-
 	for (int class_number = 0; class_number < 10; class_number++) 
 	{
+		
 		double current_posterior_variable = log( model.class_frequency_map[class_number]
 			/ model.class_frequency_map.size() );
 
 		for (int pixel = 0; pixel < image.size(); pixel++)
 		{
-			double numerator = k_constant +
-				model.feature_frequency_map[std::make_tuple(pixel, class_number, image[pixel])];
-			double denominator = (2 * k_constant) + model.class_frequency_map[class_number];
-			current_posterior_variable += log( numerator / denominator);
+			current_posterior_variable += FindPosteriorProbability(pixel, class_number, image[pixel]);
 		}
 
 		posterior_per_class[class_number] = current_posterior_variable;
@@ -49,7 +44,11 @@ void ClassifyData::InitializeModel(string images_file_name, string labels_file_n
 	model.InitializeMaps(images_file_name, labels_file_name);
 }
 
-
-
-
-
+double ClassifyData::FindPosteriorProbability(int pixel, int class_number, int value)
+{
+	double k_constant = 0.1;
+	double numerator = k_constant +
+		model.feature_frequency_map[std::make_tuple(pixel, class_number, value)];
+	double denominator = (2 * k_constant) + model.class_frequency_map[class_number];
+	return log(numerator / denominator);
+}

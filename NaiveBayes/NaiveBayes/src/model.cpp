@@ -20,7 +20,7 @@ std::ostream& operator << (std::ostream& stream, const Model& model)
 	}
 }
 
-std::istream& operator >> (std::istream& stream, const Model& model)
+std::istream& operator >> (std::istream& stream, Model& model)
 {
 	string current_string;
 	while (getline(stream, current_string) && current_string != "-")
@@ -28,7 +28,8 @@ std::istream& operator >> (std::istream& stream, const Model& model)
 		std::istringstream iss(current_string);
 		std::vector<string> entry{ std::istream_iterator<string>{iss}, std::istream_iterator<std::string>{} };
 
-		model.class_frequency_map[std::stoi(entry[0]), std::stoi(entry[1]), std::stoi(entry[2])] = std::stoi(entry[3]);
+		model.feature_frequency_map[std::make_tuple(std::stoi(entry[0]), std::stoi(entry[1]), std::stoi(entry[2]))] = 
+			std::stoi(entry[3]);
 	}
 
 	while (getline(stream, current_string))

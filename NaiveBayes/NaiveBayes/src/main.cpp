@@ -5,9 +5,8 @@
 
 int main()
 {
-	AnalyzeData analyze_data;
-	//analyze_data.PrintAccuracy();
 	EvaluateData evaluate_data;
-	evaluate_data.PrintConfusionMatrix();
+	evaluate_data.PrintAccuracy();
+	evaluate_data.GenerateConfusionMatrix();
     return 0;
 }

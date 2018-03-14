@@ -10,10 +10,13 @@ class EvaluateData
 {
 public:
 	vector<vector<int>> GenerateCorrectlyGuessedPixels();
-	vector<vector<double>> GenerateConfusionMatrix(vector<vector<int>> correctly_guessed_pixels);
+	void GenerateConfusionMatrix();
 	map<int, int> GenerateLabelFrequency(vector<int> labels);
 	void PrintConfusionMatrix();
 	void InitializeFields();
+	void GeneratePosteriorProbabilityImages();
+	void PrintMostAndLeastProbableImages(vector<int> worst_image, vector<int> best_image, int label_number);
+	void PrintAccuracy();
 	ClassifyData classify_data;
 	vector<vector<int>> images;
 	vector<int> labels;

@@ -1,50 +1,41 @@
 #include "evaluate_data.h"
 #include "load_data.h"
 #include "classify_data.h"
+#include "analyze_data.h"
 
-vector<vector<int>> EvaluateData::GenerateCorrectlyGuessedPixels()
+void EvaluateData::InitializeFields()
 {
-	vector<vector<int>> correctly_guessed_pixels(10, vector<int>(10)); //10 x 10
-
-	for (int image_index = 0; image_index < images.size(); image_index++)
-	{
-		int image_class = labels[image_index];
-		if (image_class == guessed_labels[image_index])
-		{
-			int updated_pixels = 0;
-			while (updated_pixels < 10)
-			{
-				correctly_guessed_pixels[image_class][updated_pixels]++;
-				updated_pixels++;
-			}
-		}
-		
-	}
-
-	return correctly_guessed_pixels;
+	classify_data.InitializeModel("../../../data/trainingimages.txt", "../../../data/traininglabels.txt");
+	images = LoadData::LoadFeatureVectors("../../../data/testimages.txt");
+	labels = LoadData::LoadLabelsVector("../../../data/testlabels.txt");
+	guessed_labels = classify_data.ClassOfAllImages(
+		LoadData::LoadFeatureVectors("../../../data/testimages.txt"));
 }
 
-vector<vector<double>> EvaluateData::GenerateConfusionMatrix(vector<vector<int>> correctly_guessed_pixels)
+void EvaluateData::GenerateConfusionMatrix()
 {
+	InitializeFields();
 	vector<vector<double>> confusion_matrix(10, vector<double>(10));
 	map<int, int> label_frequency = EvaluateData::GenerateLabelFrequency(labels);
 
-	for (int row = 0; row < correctly_guessed_pixels.size(); row++)
+	for (int i = 0; i < labels.size(); i++)
 	{
-		vector<double> current_row;
-
-		for (int col = 0; col < correctly_guessed_pixels[row].size(); col++)
-		{
-			current_row.push_back((double)(correctly_guessed_pixels[row][col]) / label_frequency[row]);
-		}
-
-		confusion_matrix.push_back(current_row);
+		confusion_matrix[labels[i]][guessed_labels[i]]++;
+		label_frequency[labels[i]]++;
 	}
 
-	return confusion_matrix;
+	std::cout << "confusion matrix: " << endl;
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = 0; j < 10; j++) {
+			confusion_matrix[i][j] /= label_frequency[i];
+			printf("%-5.1f", confusion_matrix[i][j] * 100);
+		}
+	}
+	std::cout << endl;
 }
 
-map<int, int> EvaluateData::GenerateLabelFrequency(vector<int> labels)
+/*map<int, int> EvaluateData::GenerateLabelFrequency(vector<int> labels)
 {
 	map<int, int> label_frequencies;
 	
@@ -54,31 +45,49 @@ map<int, int> EvaluateData::GenerateLabelFrequency(vector<int> labels)
 	}
 
 	return label_frequencies;
+}*/
+
+void EvaluateData::GeneratePosteriorProbabilityImages()
+{
+	//label, vector<probability, image>
+	map<int, vector<pair<double, vector<int>>>> best_images;
+
+
+	for (auto it = best_images.begin(); it != best_images.end(); ++it)
+	{
+		sort(it->second.begin(), it->second.end(), [](std::pair<double, vector<int>> firstPair, std::pair<double, vector<int>> secondPair)
+		{
+			return firstPair.first < secondPair.first;
+		});
+
+		PrintMostAndLeastProbableImages(it->second.back().second, it->second[0].second, it->first);
+	}
 }
 
-void EvaluateData::PrintConfusionMatrix()
+void EvaluateData::PrintMostAndLeastProbableImages(vector<int> worst_image, vector<int> best_image, int label_number)
 {
-	InitializeFields();
-	vector<vector<int>> correctly_guessed_pixels = GenerateCorrectlyGuessedPixels();
-	vector<vector<double>> confusion_matrix = GenerateConfusionMatrix(correctly_guessed_pixels);
-
-	for (int i = 0; i < confusion_matrix.size(); i++)
+	for (int pixel = 0; pixel < best_image.size(); pixel++)
 	{
-		for (int j = 0; j < confusion_matrix[i].size(); j++)
+		if (pixel % 28 == 0 && pixel != 0)
 		{
-			std::cout << confusion_matrix[i][j] << " ";
+			std::cout << endl;
 		}
-		
-		std::cout << endl;
+
+		std::cout << best_image[pixel];
 	}
 
+	for (int pixel = 0; pixel < worst_image.size(); pixel++)
+	{
+		if (pixel % 28 == 0 && pixel != 0)
+		{
+			std::cout << endl;
+		}
+
+		std::cout << worst_image[pixel];
+	}
 }
 
-void EvaluateData::InitializeFields()
+void EvaluateData::PrintAccuracy()
 {
-	classify_data.InitializeModel("../../../data/trainingimages.txt", "../../../data/traininglabels.txt");
-	images = LoadData::LoadFeatureVectors("../../../data/testimages.txt");
-	labels = LoadData::LoadLabelsVector("../../../data/testlabels.txt");
-	guessed_labels = classify_data.ClassOfAllImages(
-		LoadData::LoadFeatureVectors("../../../data/testimages.txt"));
+	AnalyzeData::PrintAccuracy(labels, guessed_labels);
 }
