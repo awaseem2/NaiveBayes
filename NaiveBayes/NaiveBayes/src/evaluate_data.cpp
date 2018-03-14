@@ -35,22 +35,22 @@ void EvaluateData::GenerateConfusionMatrix()
 	std::cout << endl;
 }
 
-/*map<int, int> EvaluateData::GenerateLabelFrequency(vector<int> labels)
+map<int, int> EvaluateData::GenerateLabelFrequency(vector<int> labels)
 {
-	map<int, int> label_frequencies;
+	/*map<int, int> label_frequencies;
 	
 	for (int index = 0; index < labels.size(); index++)
 	{
 		label_frequencies[labels[index]]++;
 	}
 
-	return label_frequencies;
-}*/
+	return label_frequencies;*/
+}
 
 void EvaluateData::GeneratePosteriorProbabilityImages()
 {
 	//label, vector<probability, image>
-	map<int, vector<pair<double, vector<int>>>> best_images;
+	/*map<int, vector<pair<double, vector<int>>>> best_images;
 
 
 	for (auto it = best_images.begin(); it != best_images.end(); ++it)
@@ -61,12 +61,12 @@ void EvaluateData::GeneratePosteriorProbabilityImages()
 		});
 
 		PrintMostAndLeastProbableImages(it->second.back().second, it->second[0].second, it->first);
-	}
+	}*/
 }
 
 void EvaluateData::PrintMostAndLeastProbableImages(vector<int> worst_image, vector<int> best_image, int label_number)
 {
-	for (int pixel = 0; pixel < best_image.size(); pixel++)
+	/*for (int pixel = 0; pixel < best_image.size(); pixel++)
 	{
 		if (pixel % 28 == 0 && pixel != 0)
 		{
@@ -84,10 +84,5 @@ void EvaluateData::PrintMostAndLeastProbableImages(vector<int> worst_image, vect
 		}
 
 		std::cout << worst_image[pixel];
-	}
-}
-
-void EvaluateData::PrintAccuracy()
-{
-	AnalyzeData::PrintAccuracy(labels, guessed_labels);
+	}*/
 }

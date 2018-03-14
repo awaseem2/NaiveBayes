@@ -16,7 +16,6 @@ public:
 	void InitializeFields();
 	void GeneratePosteriorProbabilityImages();
 	void PrintMostAndLeastProbableImages(vector<int> worst_image, vector<int> best_image, int label_number);
-	void PrintAccuracy();
 	ClassifyData classify_data;
 	vector<vector<int>> images;
 	vector<int> labels;

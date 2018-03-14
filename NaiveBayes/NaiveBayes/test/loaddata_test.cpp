@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include "..\src\load_data.h"
+#include "../src/load_data.h"
 
 TEST_CASE("Get Features Test")
 {

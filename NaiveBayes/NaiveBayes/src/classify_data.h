@@ -18,6 +18,5 @@ public:
 	vector<int> ClassOfAllImages(vector<vector<int>> all_images);
 	double FindPosteriorProbability(int pixel, int class_number, int value);
 	//map<pair<vector<int>, int>, double> posterior_probabilities;
-	vector<int, pair<vector<int>, double>> posterior_probabilities;
 };
 

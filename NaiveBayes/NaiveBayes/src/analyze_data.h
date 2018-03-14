@@ -2,10 +2,12 @@
 
 #include <vector>
 #include <iostream>
+#include "classify_data.h"
+#include "load_data.h"
 
 class AnalyzeData
 {
 public:
-	static void PrintAccuracy(std::vector<int> correct_labels, std::vector<int> guessed_labels);
+	static void PrintAccuracy();
 };
 

@@ -5,8 +5,8 @@
 
 int main()
 {
+	AnalyzeData::PrintAccuracy();
 	EvaluateData evaluate_data;
-	evaluate_data.PrintAccuracy();
 	evaluate_data.GenerateConfusionMatrix();
     return 0;
 }
