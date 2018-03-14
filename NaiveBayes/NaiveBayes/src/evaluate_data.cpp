@@ -16,7 +16,7 @@ void EvaluateData::GenerateConfusionMatrix()
 {
 	InitializeFields();
 	vector<vector<double>> confusion_matrix(10, vector<double>(10));
-	map<int, int> label_frequency = EvaluateData::GenerateLabelFrequency(labels);
+	map<int, int> label_frequency = GenerateLabelFrequency(labels);
 
 	for (int i = 0; i < labels.size(); i++)
 	{
@@ -37,14 +37,14 @@ void EvaluateData::GenerateConfusionMatrix()
 
 map<int, int> EvaluateData::GenerateLabelFrequency(vector<int> labels)
 {
-	/*map<int, int> label_frequencies;
+	map<int, int> label_frequencies;
 	
 	for (int index = 0; index < labels.size(); index++)
 	{
 		label_frequencies[labels[index]]++;
 	}
 
-	return label_frequencies;*/
+	return label_frequencies;
 }
 
 void EvaluateData::GeneratePosteriorProbabilityImages()
